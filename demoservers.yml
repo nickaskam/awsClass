@@ -1,0 +1,44 @@
+Parameters:
+    EnvironmentName:
+        Description: An Environment name that will be prefixed to resources
+        Type: String
+
+Resources:
+    LbSecGroup:
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+          GroupDescription: Allow http to client host
+          VpcId: "vpc-0e414eb5b02297021"  
+          SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: 80
+            ToPort: 80
+            CidrIp: 0.0.0.0/0
+          SecurityGroupEgress:
+          - IpProtocol: tcp
+            FromPort: 80
+            ToPort: 80
+            CidrIp: 0.0.0.0/0
+    WebServerSecGroup:
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+          GroupDescription: Allow http to our host and SSH from local Only
+          VpcId: "vpc-0e414eb5b02297021" 
+          SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: 8080
+            ToPort: 8080
+            CidrIp: 0.0.0.0/0
+          - IpProtocol: tcp
+            FromPort: 80
+            ToPort: 80
+            CidrIp: 0.0.0.0/0
+          - IpProtocol: tcp
+            FromPort: 22
+            ToPort: 22
+            CidrIp: 0.0.0.0/0
+          SecurityGroupEgress:
+          - IpProtocol: tcp
+            FromPort: 0
+            ToPort: 65535
+            CidrIp: 0.0.0.0/0
